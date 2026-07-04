@@ -4,7 +4,7 @@ MCP server quản lý kênh YouTube (Data API v3 + Analytics), kiến trúc **st
 theo tinh thần Facebook MCP**: server **không lưu token người dùng**. Client giữ
 refresh token, server đổi ra access token và cache RAM theo `sha256(refresh_token)`.
 
-Xem thiết kế chi tiết + lý do từng quyết định: `2BRAIN/wiki/ai-cong-nghe/youtube-mcp-thiet-ke-oauth-stateless.md`.
+Xem thiết kế chi tiết + lý do từng quyết định: [`docs/thiet-ke.md`](docs/thiet-ke.md).
 
 ## Kiến trúc
 
