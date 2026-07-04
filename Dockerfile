@@ -1,0 +1,16 @@
+FROM python:3.12-slim
+
+# uv từ image chính thức của astral (nhanh)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /app
+
+# Cài dependencies trước để tận dụng cache layer
+COPY requirements.txt ./
+RUN uv pip install --system --no-cache -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["python", "run_http.py"]

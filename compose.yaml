@@ -1,0 +1,25 @@
+services:
+  yt-mcp:
+    build: .
+    container_name: yt-mcp
+    restart: unless-stopped
+    # Publish ra LAN. Khoá về 1 IP host: đổi thành "192.168.x.x:9000:8000".
+    ports:
+      - "9000:8000"
+    environment:
+      # OAuth app (mức ứng dụng) — bắt buộc.
+      GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID}"
+      GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET}"
+      # URL gốc công khai (Tailscale HTTPS) để dựng redirect_uri OAuth — bắt buộc.
+      # Ví dụ: https://my-host.tailnet-name.ts.net
+      PUBLIC_BASE_URL: "${PUBLIC_BASE_URL}"
+      UPLOAD_TMP_DIR: "/data/uploads_tmp"
+    volumes:
+      # Mount thư mục chứa file tạm + file lớn muốn upload thẳng từ máy chủ.
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8000), 2)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
